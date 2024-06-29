@@ -27,6 +27,7 @@ ServerAPI is a versatile software that allows you to turn any machine (Windows, 
 To launch ServerAPI with the Minecraft server option, use the following command:
 ```sh
 serverapi launch mc_server
+```
 This command will install the necessary files and launch the Minecraft server in parallel with mail and setup threads to monitor the server files for any errors.
 
 ## Configuration
