@@ -35,7 +35,8 @@ ServerAPI includes a setup wizard that guides the user through the necessary con
 
 ## Support
 For support, please create an "issue" on the GitHub page of the software.
-Contributing
+
+## Contributing
 We welcome contributions! If you would like to contribute, please fork the repository and create a pull request. We are open to any suggestions for improvement.
 
 ## License
