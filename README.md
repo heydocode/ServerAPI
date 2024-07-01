@@ -5,8 +5,10 @@ ServerAPI is a versatile software that allows you to turn any machine (Windows, 
 ## IMPORTANT
 ServerAPI is in active developpement and is not released yet!
 
-- Parallel all tasks (if possible)
+- Parallel all tasks (when it's possible)
 - Communication between threads
+- When an email login attempt error occurs, launch the setup wizard to change infos (in parallel of other tasks to avoid problems if the owner isn't at the server)
+- Do a better error handling system
 
 ## Features
 
