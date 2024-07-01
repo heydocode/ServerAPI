@@ -13,6 +13,10 @@ ServerAPI is in active developpement and is not released yet!
 - Do a better error handling system
 - To do a list of languages in config/languages/..*.txt*
 - Set device's language
+- Add tests
+- Manage process calling and support of third party programs launching as a child process (like a minecraft software written in java, papermc.jar, or a mcbe software written in php, pocketmine-mp.phar)
+- Add a safe connection to the ServerAPI terminal
+- Add different permissions inside of ServerAPI (to avoid security failures for example by launching a virus as a child process)
 
 ## Features
 
