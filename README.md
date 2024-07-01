@@ -5,6 +5,8 @@ ServerAPI is a versatile software that allows you to turn any machine (Windows, 
 ## IMPORTANT
 ServerAPI is in active developpement and is not released yet!
 
+- Async agents
+
 ## Features
 
 - Easy installation and setup
