@@ -5,7 +5,7 @@ use lettre::{
 use crate::file_reader::smtp_account_reader;
 use crate::file_writer::write_to_file;
 
-pub fn mail_sender(title: &str, text: String) {
+pub async fn mail_sender(title: &str, text: String) {
     let email = Message::builder()
         .from("ServerAPI <glorifia.acc87613@gmail.com>".parse().expect("Error parsing sender in Message Builder"))
         // .reply_to("Yuin <yuin@domain.tld>".parse().unwrap())
@@ -28,14 +28,14 @@ pub fn mail_sender(title: &str, text: String) {
     // Send the email
     match mailer.send(&email) {
         Ok(_) => {
-            match write_to_file(format!("Email has been sent successfully!"), "config/mail_logs.txt") {
+            match write_to_file(format!("Email has been sent successfully!"), "config/mail_logs.txt").await {
                 Ok(()) => {},
                 n => println!("An error occured when tried to write logs (email success): {n:?}")
             }
             println!("Email has been sent successfully!");
         },
         Err(e) => {
-            match write_to_file(format!("Could not send email: {e:?}"), "config/mail_logs.txt") {
+            match write_to_file(format!("Could not send email: {e:?}"), "config/mail_logs.txt").await {
                 Ok(()) => {},
                 n => println!("An error occured when tried to write logs (email failure): {n:?}")
             }
