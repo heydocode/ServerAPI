@@ -21,14 +21,12 @@ ServerAPI is in "active" (now is not) developpement and is not released yet!
 
 - Easy installation and setup
 - Sends machine statistics via email
-- Online server management panel
-- Console for server management
 - Supports running a Minecraft server with monitoring
 
 ## Requirements
 
 - Access to Wi-Fi
-- A compatible device (iOS devices are not supported)
+- A compatible device (iOS and Android devices are not supported)
 
 ## Installation
 
