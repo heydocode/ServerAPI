@@ -1,9 +1,9 @@
 # ServerAPI
 
-ServerAPI is a versatile software that allows you to turn any machine (Windows, Linux, and macOS) into a server. It sends machine statistics via email (configurable via wizard), creates an online server management panel, and provides a console managed by user input and ServerAPI.
+ServerAPI is a versatile software that allows you to turn any machine (Windows, Linux, and macOS) into a server. It sends machine statistics via email (configurable via setup wizard), display and register logs.
 
 ## IMPORTANT
-ServerAPI is in active developpement and is not released yet!
+ServerAPI is in "active" (now is not) developpement and is not released yet!
 
 ## Tasks
 
@@ -37,13 +37,6 @@ ServerAPI is in active developpement and is not released yet!
 3. Follow the setup wizard.
 4. Enjoy using ServerAPI!
 
-## Usage
-
-To launch ServerAPI with the Minecraft server option, use the following command:
-```sh
-serverapi launch mc_server
-```
-This command will install the necessary files and launch the Minecraft server in parallel with mail and setup threads to monitor the server files for any errors.
 
 ## Configuration
 
