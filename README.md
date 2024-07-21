@@ -1,6 +1,6 @@
 # ServerAPI
 
-ServerAPI is a versatile software that allows you to turn any machine (Windows, Linux, and macOS) into a server. It sends machine statistics via email, creates an online server management panel, and provides a console managed by user input and ServerAPI.
+ServerAPI is a versatile software that allows you to turn any machine (Windows, Linux, and macOS) into a server. It sends machine statistics via email (configurable via wizard), creates an online server management panel, and provides a console managed by user input and ServerAPI.
 
 ## IMPORTANT
 ServerAPI is in active developpement and is not released yet!
