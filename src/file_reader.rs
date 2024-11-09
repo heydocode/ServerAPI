@@ -1,4 +1,4 @@
-use std::fs::{create_dir_all, File, metadata};
+use std::fs::{create_dir_all, metadata, File};
 use std::io::{BufReader, Read};
 use std::path::Path;
 
@@ -41,7 +41,12 @@ pub fn mc_status_reader() -> String {
     }
 
     let contents = read_from_file(file_path.to_str().unwrap_or("config/logs.txt"));
-    if contents.clone().expect("Could not convert contents to Ok()").len() <= 5 {
+    if contents
+        .clone()
+        .expect("Could not convert contents to Ok()")
+        .len()
+        <= 5
+    {
         String::from("The server's logs are empty! Is there a problem?")
     } else {
         contents.expect("Could not convert contents to Ok()")
@@ -63,11 +68,14 @@ fn read_from_file(file_path: &str) -> Result<String, String> {
     }
 
     // Attempt to open the file
-    let file = File::open(file_path).map_err(|e| format!("Error opening file '{}': {}", file_path, e))?;
+    let file =
+        File::open(file_path).map_err(|e| format!("Error opening file '{}': {}", file_path, e))?;
     let mut buf_reader = BufReader::new(file);
     let mut contents = String::new();
-    
-    buf_reader.read_to_string(&mut contents).map_err(|e| format!("Error reading file '{}': {}", file_path, e))?;
+
+    buf_reader
+        .read_to_string(&mut contents)
+        .map_err(|e| format!("Error reading file '{}': {}", file_path, e))?;
 
     Ok(contents)
 }

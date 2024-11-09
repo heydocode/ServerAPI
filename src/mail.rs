@@ -1,8 +1,11 @@
 use crate::file_reader::smtp_account_reader;
 use crate::file_writer::write_to_file;
 use lettre::{
-    message::{header::{self, ContentType}, MultiPart, SinglePart}, transport::smtp::authentication::Credentials, Message,
-    SmtpTransport, Transport,
+    message::{
+        header::{self}, MaybeString, MultiPart, SinglePart
+    },
+    transport::smtp::authentication::Credentials,
+    Message, SmtpTransport, Transport,
 };
 use maud::PreEscaped;
 
@@ -28,8 +31,7 @@ pub async fn mail_sender(title: &str, html: PreEscaped<String>) {
                 .singlepart(
                     SinglePart::builder()
                         .header(header::ContentType::TEXT_PLAIN)
-                        .body(format!(
-                            "Hello there!\nYour server is working fine! The next status email will be sent in 5 minutes.\n\nServer's Logs:\nYour client does not support html...")),
+                        .body(MaybeString::String(String::from("Hello there!\nYour server is working fine! The next status email will be sent in 5 minutes.\n\nServer's Logs:\nYour client does not support html..."))),
                 )
                 .singlepart(
                     SinglePart::builder()
@@ -50,7 +52,7 @@ pub async fn mail_sender(title: &str, html: PreEscaped<String>) {
     match mailer.send(&email) {
         Ok(_) => {
             match write_to_file(
-                format!("Email has been sent successfully!"),
+                "Email has been sent successfully!".to_string(),
                 "config/mail_logs.txt",
             )
             .await

@@ -12,11 +12,8 @@ use scheduler::status_upload;
 use file_writer::write_to_file;
 use setup::check_config_components;
 use std::thread;
-use tracing_subscriber;
 
 fn main() {
-    tracing_subscriber::fmt::init();
-
     let setup_handle = thread::Builder::new().name("setup".to_string()).spawn(|| {
         println!("Setup Process has been launched");
         match check_config_components() {
@@ -26,7 +23,7 @@ fn main() {
 
         async_std::task::block_on(async {
             match write_to_file(
-                format!("All config components are OK, loading the server.."),
+                "All config components are OK, loading the server..".to_string(),
                 "config/logs.txt",
             )
             .await
@@ -37,23 +34,30 @@ fn main() {
         });
     });
 
-    if let Err(_) = setup_handle.expect("Unable to join setup handle").join() {
+    let mail_handle = thread::Builder::new()
+        .name("mail_server".to_string())
+        .spawn(|| {
+            println!("Mail Server has been enabled");
+            status_upload();
+            println!("Mail Server has been disabled");
+        });
+
+    if setup_handle
+        .expect("Unable to join setup handle")
+        .join()
+        .is_err()
+    {
         eprintln!("An error occured when tried to join setup handle");
-    } else {
-        let mail_handle = thread::Builder::new()
-            .name("mail_server".to_string())
-            .spawn(|| {
-                println!("Mail Server has been enabled");
-                status_upload();
-                println!("Mail Server has been disabled");
-            });
-        if let Err(_) = mail_handle.expect("Unable to join mail handle").join() {
-            eprintln!("An error occured when tried to join mail handle");
-        }
-        // Please consider adding `else if` blocks until all handles won't be joined
-        else {
-            println!("All config components are OK, loading the server..");
-        }
+    } else if mail_handle
+        .expect("Unable to join mail handle")
+        .join()
+        .is_err()
+    {
+        eprintln!("An error occured when tried to join mail handle");
+    }
+    // Please consider adding `else if` blocks until all handles won't be joined
+    else {
+        println!("All config components are OK, loading the server..");
     }
     /*
         MINECRAFT SERVER SUPPORT USING VALENCE
