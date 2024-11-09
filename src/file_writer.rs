@@ -14,7 +14,7 @@ pub async fn write_to_file(text: String, file_path: &str) -> Result<(), String> 
     file.write_all(text.as_bytes()).await.map_err(|e| e.to_string())
 }
 
-pub async fn update_credentials(username: String, password: String) -> Result<(), String> {
+pub async fn update_credentials(username: String, password: String, receiver: String) -> Result<(), String> {
     let file_path = "config/smtp_account.txt";
     let path = Path::new(file_path);
 
@@ -30,7 +30,8 @@ pub async fn update_credentials(username: String, password: String) -> Result<()
 
     let updated_content = content
         .replace("username:example@gmail.com", &format!("username:{}", username))
-        .replace("password:password123123", &format!("password:{}", password));
+        .replace("password:password123123", &format!("password:{}", password))
+        .replace("receiver:example@gmail.com", &format!("receiver:{}", receiver));
 
     {
         let mut file = OpenOptions::new()

@@ -32,7 +32,7 @@ pub fn check_config_components() -> std::result::Result<(), String> {
         if path == Path::new("config/smtp_account.txt") {
             match smtp_account_reader() {
                 Err(_) => {
-                    let _ = write!(file, "username:example@gmail.com\npassword:password123123\n\n### The username is your gmail account (example@gmail.com)\n### The password is a 'password for apps' created in Google\n## NOTICE: To create an app-password, you have to have 2-step verification\n## enabled and maybe all rescue options of saving the account.").map_err(|e| e.to_string());
+                    let _ = write!(file, "username:example@gmail.com\npassword:password123123\nreceiver:example@gmail.com\n\n### The username is your gmail account (example@gmail.com)\n### The password is a 'password for apps' created in Google\n## NOTICE: To create an app-password, you have to have 2-step verification\n## enabled and maybe all rescue options of saving the account.").map_err(|e| e.to_string());
                     setup_wizard();
                 },
                 _ => {}
@@ -46,6 +46,7 @@ pub fn setup_wizard() {
     let mut iter: u8 = 1;
     let mut smtp_account_username = String::new();
     let mut smtp_account_password = String::new();
+    let mut receiver_gmail = String::new();
 
     loop {
         match iter {
@@ -61,6 +62,12 @@ pub fn setup_wizard() {
             4 => {
                 println!("Can you confirm your smtp account password (Y or N)?");
             },
+            5 => {
+                println!("Enter your gmail account as a receiver\n(you will receive status emails on this gmail address):")
+            }
+            6 => {
+                println!("Can you confirm your gmail account username (Y or N)?");
+            }
             _ => ()
         }
         let input = read_line();
@@ -90,9 +97,26 @@ pub fn setup_wizard() {
                 else {
                     iter = 3
                 }
+            },
+            5 => {
+                println!("You have entered \"{}\" as your gmail account username", input);
+                receiver_gmail = input.clone();
+                iter += 1;
+            }
+            6 => {
+                if input.to_lowercase() == "y" {
+                    iter += 1;
+                }
+                else {
+                    iter = 5
+                }
             }
             _ => {
-                update_credentials(smtp_account_username, smtp_account_password);
+                async_std::task::block_on(async move {
+                    update_credentials(smtp_account_username, smtp_account_password, receiver_gmail)
+                        .await
+                        .expect("Failed to update credentials");
+                });
                 return;
             }
         }

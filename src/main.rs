@@ -1,6 +1,6 @@
-mod mail;
 mod file_reader;
 mod file_writer;
+mod mail;
 mod scheduler;
 // mod mc_server;
 mod setup;
@@ -17,34 +17,50 @@ use tracing_subscriber;
 fn main() {
     tracing_subscriber::fmt::init();
 
-    let setup_handle = thread::Builder::new().name("setup".to_string()).spawn(|| async {
+    let setup_handle = thread::Builder::new().name("setup".to_string()).spawn(|| {
+        println!("Setup Process has been launched");
         match check_config_components() {
-            Ok(()) => {},
-            n => println!("An error occured when tried to check config components: {n:?}")
+            Ok(()) => {}
+            n => println!("An error occured when tried to check config components: {n:?}"),
         }
 
-        match write_to_file(format!("All config components are OK, loading the server.."), "config/logs.txt").await {
-            Ok(()) => {},
-            n => println!("An error occured when tried to write logs (setup success): {n:?}")
+        async_std::task::block_on(async {
+            match write_to_file(
+                format!("All config components are OK, loading the server.."),
+                "config/logs.txt",
+            )
+            .await
+            {
+                Ok(()) => {}
+                n => println!("An error occured when tried to write logs (setup success): {n:?}"),
+            }
+        });
+    });
+
+    if let Err(_) = setup_handle.expect("Unable to join setup handle").join() {
+        eprintln!("An error occured when tried to join setup handle");
+    } else {
+        let mail_handle = thread::Builder::new()
+            .name("mail_server".to_string())
+            .spawn(|| {
+                println!("Mail Server has been enabled");
+                status_upload();
+                println!("Mail Server has been disabled");
+            });
+        if let Err(_) = mail_handle.expect("Unable to join mail handle").join() {
+            eprintln!("An error occured when tried to join mail handle");
         }
-    });
-
-    setup_handle.expect("Unable to join setup handle").join().unwrap();
-    println!("All config components are OK, loading the server..");
-/*
-    let mc_handle = thread::Builder::new().name("mc_server".to_string()).spawn(|| {
-        println!("MC Server has been enabled");
-        start_mc_server();
-        println!("MC Server has been disabled");
-    });
-*/
-
-    let mail_handle = thread::Builder::new().name("mail_server".to_string()).spawn(|| {
-        println!("Mail Server has been enabled");
-        status_upload();
-        println!("Mail Server has been disabled");
-    });
-
-    mail_handle.expect("Unable to join mail server handle").join().unwrap();
-    // mc_handle.expect("Unable to join mc server handle").join().unwrap();
+        // Please consider adding `else if` blocks until all handles won't be joined
+        else {
+            println!("All config components are OK, loading the server..");
+        }
+    }
+    /*
+        MINECRAFT SERVER SUPPORT USING VALENCE
+        let mc_handle = thread::Builder::new().name("mc_server".to_string()).spawn(|| {
+            println!("MC Server has been enabled");
+            start_mc_server();
+            println!("MC Server has been disabled");
+        });
+    */
 }
