@@ -34,30 +34,31 @@ fn main() {
         });
     });
 
-    let mail_handle = thread::Builder::new()
-        .name("mail_server".to_string())
-        .spawn(|| {
-            println!("Mail Server has been enabled");
-            status_upload();
-            println!("Mail Server has been disabled");
-        });
-
     if setup_handle
         .expect("Unable to join setup handle")
         .join()
         .is_err()
     {
         eprintln!("An error occured when tried to join setup handle");
-    } else if mail_handle
-        .expect("Unable to join mail handle")
-        .join()
-        .is_err()
-    {
-        eprintln!("An error occured when tried to join mail handle");
     }
     // Please consider adding `else if` blocks until all handles won't be joined
     else {
-        println!("All config components are OK, loading the server..");
+        let mail_handle = thread::Builder::new()
+        .name("mail_server".to_string())
+        .spawn(|| {
+            println!("Mail Server has been enabled");
+            status_upload();
+            println!("Mail Server has been disabled");
+        });
+        if mail_handle
+            .expect("Unable to join mail handle")
+            .join()
+            .is_err()
+        {
+            eprintln!("An error occured when tried to join mail handle");
+        } else {
+            println!("All config components are OK, loading the server..");
+        }
     }
     /*
         MINECRAFT SERVER SUPPORT USING VALENCE
