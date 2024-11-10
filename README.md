@@ -7,19 +7,10 @@ ServerAPI is a versatile software that allows you to turn any machine (Windows, 
 This project uses [`lettre`](https://lettre.rs/) crate to send e-mails, async-std to execute code in async/await and [`valence`](https://valence.rs/) to add minecraft server software that runs in async with the mail server (removed). Everything is written in the **Rust** programming language (except the sent mail which is written in html & css, see the [`showcase`](https://github.com/heydocode/ServerAPI/tree/master/README.md#Showcase) section).
 
 ## IMPORTANT
-ServerAPI is in "active" (now is not) developpement and is not released yet!
 
-## Tasks
+ServerAPI has 1 single **stable** release which is 1.0.0, please install the release under the Release github repository section
 
-- Communication between threads
-- When an email login attempt error occurs, launch the setup wizard to change infos (in parallel of other tasks to avoid problems if the owner isn't at the server)
-- Do a better error handling system
-- To do a list of languages in config/languages/..*.txt*
-- Set device's language as a ServerAPI's local language
-- Add tests
-- Manage process calling and support of third party programs launching as a child process (like a minecraft software written in java, papermc.jar, or a mcbe software written in php, pocketmine-mp.phar)
-- Add a safe connection to the ServerAPI terminal
-- Add different permissions inside of ServerAPI (to avoid security failures for example by launching a virus as a child process)
+This project isn't meant for production use, it doesn't even support encryption!
 
 ## Features
 
@@ -30,7 +21,7 @@ ServerAPI is in "active" (now is not) developpement and is not released yet!
 ## Requirements
 
 - Access to Wi-Fi
-- A compatible device (iOS and Android devices are not supported)
+- A compatible device (only Desktop devices are supported)
 
 ## Installation
 
