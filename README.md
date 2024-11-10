@@ -2,6 +2,10 @@
 
 ServerAPI is a versatile software that allows you to turn any machine (Windows, Linux, and macOS) into a server. It sends machine statistics via email (configurable via setup wizard), display and register logs.
 
+## Technologies
+
+This project uses [`lettre`](https://lettre.rs/) crate to send e-mails, async-std to execute code in async/await and [`valence`](https://valence.rs/) to add minecraft server software that runs in async with the mail server (removed). Everything is written in the **Rust** programming language (except the sent mail which is written in html & css, see the [`showcase`](https://github.com/heydocode/ServerAPI/tree/master/README.md#Showcase) section).
+
 ## IMPORTANT
 ServerAPI is in "active" (now is not) developpement and is not released yet!
 
@@ -39,6 +43,10 @@ ServerAPI is in "active" (now is not) developpement and is not released yet!
 ## Configuration
 
 ServerAPI includes a setup wizard that guides the user through the necessary configuration steps. The user simply needs to answer the wizard's questions and confirm the provided information.
+
+## Showcase
+
+![image](screenshots/ServerAPIemail.png)
 
 ## Support
 
