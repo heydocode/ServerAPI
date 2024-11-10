@@ -8,7 +8,7 @@ This project uses [`lettre`](https://lettre.rs/) crate to send e-mails, async-st
 
 ## IMPORTANT
 
-ServerAPI has 1 single **stable** release which is 1.0.0, please install the release under the Release github repository section
+ServerAPI has 1 single **stable** release which is 1.0.0, please install the release [`here`](https://github.com/heydocode/ServerAPI/releases/tag/1.0.0)
 
 This project isn't meant for production use, it doesn't even support encryption!
 
